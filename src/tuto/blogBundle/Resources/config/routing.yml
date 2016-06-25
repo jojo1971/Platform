@@ -1,0 +1,21 @@
+Blog_home:
+    pattern: /
+    defaults: { _controller: blogBundle:Public:index }
+
+Blog_page:
+    pattern: /page/{page}
+    defaults: {_controller: blogBundle:Public:page }
+    requirements:
+        page: \d+
+
+Blog_article:
+    pattern: /article/{_locale}/{annee}/{slug}.{_format}
+    defaults: { _controller: blogBundle:Public:article, _format: html }
+    requirements:
+        annee: \d{4}
+        _format: momo|html
+        _locale: fr|en
+
+Blog_art:
+    pattern: /art/{slug}
+    defaults: { _controller: blogBundle:Public:art }

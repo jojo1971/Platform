@@ -1,0 +1,8 @@
+blog:
+    resource: "@blogBundle/Resources/config/routing.yml"
+    prefix:   /blog
+
+hello:
+    resource: "@HelloBundle/Resources/config/routing.yml"
+    prefix:   /
+
