@@ -24,11 +24,16 @@ class PublicController extends Controller{
         ));
     }
     function  artAction($slug){
-      $article = array(
+        $cookies = $this->getRequest()->cookies;
+        $cookies->set('pseudo','Jojo');
+
+        $session = $this->get('session');
+        $session->set('dateDerniereVisiste',new \DateTime());
+        $article = array(
         'titre' => "Titre de l'article",
-        'date' => new \DateTime(),
+        'date' => $session->get('dateDerniereSession'),
         'contenu' => "c'est cool ce tuto",
-        'auteur' => "Jojo lafleur",
+        'auteur' => $cookies->get('pseudo'),
         'token' => $this->getRequest()->query->get('token'),
       );
         return $this->render('blogBundle:Public:art.html.twig',array(
