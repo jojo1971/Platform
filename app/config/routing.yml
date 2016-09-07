@@ -1,12 +1,4 @@
-blog:
-    resource: "@blogBundle/Resources/config/routing.yml"
-    prefix:   /blog
-
-blog.admin:
-    resource: "@blogBundle/Resources/config/routing_admin.yml"
-    prefix:   /admin/blog
-
-hello:
-    resource: "@HelloBundle/Resources/config/routing.yml"
-    prefix:   /
+oc_platform:
+    resource: "@OCPlatformBundle/Resources/config/routing.yml"
+    prefix:   /platform
 

@@ -1,5 +1,5 @@
 parameters:
-#    blog.example.class: tuto\blogBundle\Example
+#    blog.example.class: Tuto\blogBundle\Example
 
 services:
 #    blog.example:

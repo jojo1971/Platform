@@ -15,8 +15,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * ControllerNameParser converts controller from the short notation a:b:c
- * (blogBundle:Post:index) to a fully-qualified class::method string
- * (Bundle\blogBundle\Controller\PostController::indexAction).
+ * (BlogBundle:Post:index) to a fully-qualified class::method string
+ * (Bundle\BlogBundle\Controller\PostController::indexAction).
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
@@ -46,7 +46,7 @@ class ControllerNameParser
      */
     public function parse($controller)
     {
-        if (3 != count($parts = explode(':', $controller))) {
+        if (3 !== count($parts = explode(':', $controller))) {
             throw new \InvalidArgumentException(sprintf('The "%s" controller is not a valid "a:b:c" controller string.', $controller));
         }
 

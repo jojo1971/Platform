@@ -1032,7 +1032,7 @@ class appProdProjectContainer extends Container
         $instance->addPath('C:\\wamp\\www\\Symfony_Standard_Vendors_2.5.4\\Symfony\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\TwigBundle/Resources/views', 'Twig');
         $instance->addPath('C:\\wamp\\www\\Symfony_Standard_Vendors_2.5.4\\Symfony\\vendor\\symfony\\swiftmailer-bundle\\Symfony\\Bundle\\SwiftmailerBundle/Resources/views', 'Swiftmailer');
         $instance->addPath('C:\\wamp\\www\\Symfony_Standard_Vendors_2.5.4\\Symfony\\vendor\\doctrine\\doctrine-bundle\\Doctrine\\Bundle\\DoctrineBundle/Resources/views', 'Doctrine');
-        $instance->addPath('C:\\wamp\\www\\Symfony_Standard_Vendors_2.5.4\\Symfony\\src\\tuto\\helloBundle/Resources/views', 'Hello');
+        $instance->addPath('C:\\wamp\\www\\Symfony_Standard_Vendors_2.5.4\\Symfony\\src\\Tuto\\helloBundle/Resources/views', 'Hello');
         $instance->addPath('C:/wamp/www/Symfony_Standard_Vendors_2.5.4/Symfony/app/Resources/views');
         $instance->addPath('C:\\wamp\\www\\Symfony_Standard_Vendors_2.5.4\\Symfony\\vendor\\symfony\\symfony\\src\\Symfony\\Bridge\\Twig/Resources/views/Form');
         return $instance;
@@ -1167,7 +1167,7 @@ class appProdProjectContainer extends Container
                 'AsseticBundle' => 'Symfony\\Bundle\\AsseticBundle\\AsseticBundle',
                 'DoctrineBundle' => 'Doctrine\\Bundle\\DoctrineBundle\\DoctrineBundle',
                 'SensioFrameworkExtraBundle' => 'Sensio\\Bundle\\FrameworkExtraBundle\\SensioFrameworkExtraBundle',
-                'HelloBundle' => 'tuto\\helloBundle\\HelloBundle',
+                'HelloBundle' => 'Tuto\\helloBundle\\HelloBundle',
             ),
             'kernel.charset' => 'UTF-8',
             'kernel.container_class' => 'appProdProjectContainer',

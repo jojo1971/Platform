@@ -61,22 +61,9 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                     return array (  '_controller' => 'web_profiler.controller.profiler:purgeAction',  '_route' => '_profiler_purge',);
                 }
 
-                if (0 === strpos($pathinfo, '/_profiler/i')) {
-                    // _profiler_info
-                    if (0 === strpos($pathinfo, '/_profiler/info') && preg_match('#^/_profiler/info/(?P<about>[^/]++)$#s', $pathinfo, $matches)) {
-                        return $this->mergeDefaults(array_replace($matches, array('_route' => '_profiler_info')), array (  '_controller' => 'web_profiler.controller.profiler:infoAction',));
-                    }
-
-                    // _profiler_import
-                    if ($pathinfo === '/_profiler/import') {
-                        return array (  '_controller' => 'web_profiler.controller.profiler:importAction',  '_route' => '_profiler_import',);
-                    }
-
-                }
-
-                // _profiler_export
-                if (0 === strpos($pathinfo, '/_profiler/export') && preg_match('#^/_profiler/export/(?P<token>[^/\\.]++)\\.txt$#s', $pathinfo, $matches)) {
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => '_profiler_export')), array (  '_controller' => 'web_profiler.controller.profiler:exportAction',));
+                // _profiler_info
+                if (0 === strpos($pathinfo, '/_profiler/info') && preg_match('#^/_profiler/info/(?P<about>[^/]++)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => '_profiler_info')), array (  '_controller' => 'web_profiler.controller.profiler:infoAction',));
                 }
 
                 // _profiler_phpinfo
@@ -135,98 +122,40 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
-        if (0 === strpos($pathinfo, '/blog')) {
-            // Blog_home
-            if (rtrim($pathinfo, '/') === '/blog') {
-                if (substr($pathinfo, -1) !== '/') {
-                    return $this->redirect($pathinfo.'/', 'Blog_home');
-                }
-
-                return array (  '_controller' => 'tuto\\blogBundle\\Controller\\PublicController::indexAction',  '_route' => 'Blog_home',);
+        if (0 === strpos($pathinfo, '/platform')) {
+            // oc_plarform_home
+            if (preg_match('#^/platform(?:/(?P<page>\\d*))?$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_plarform_home')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::indexAction',  'page' => 1,));
             }
 
-            // Blog_page
-            if (0 === strpos($pathinfo, '/blog/page') && preg_match('#^/blog/page/(?P<page>\\d+)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'Blog_page')), array (  '_controller' => 'tuto\\blogBundle\\Controller\\PublicController::pageAction',));
-            }
-
-            if (0 === strpos($pathinfo, '/blog/art')) {
-                // Blog_article
-                if (0 === strpos($pathinfo, '/blog/article') && preg_match('#^/blog/article/(?P<_locale>fr|en)/(?P<annee>\\d{4})/(?P<slug>[^/\\.]++)(?:\\.(?P<_format>momo|html))?$#s', $pathinfo, $matches)) {
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'Blog_article')), array (  '_controller' => 'tuto\\blogBundle\\Controller\\PublicController::articleAction',  '_format' => 'html',));
+            if (0 === strpos($pathinfo, '/platform/ad')) {
+                // oc_platform_home_view
+                if (0 === strpos($pathinfo, '/platform/advert') && preg_match('#^/platform/advert/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_home_view')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::viewAction',));
                 }
 
-                // Blog_art
-                if (preg_match('#^/blog/art/(?P<slug>[^/]++)$#s', $pathinfo, $matches)) {
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'Blog_art')), array (  '_controller' => 'tuto\\blogBundle\\Controller\\PublicController::artAction',));
+                // oc_plarform_home_add
+                if ($pathinfo === '/platform/add') {
+                    return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::addAction',  '_route' => 'oc_plarform_home_add',);
                 }
 
             }
 
-        }
-
-        if (0 === strpos($pathinfo, '/admin/blog')) {
-            // Blog_admin_home
-            if (rtrim($pathinfo, '/') === '/admin/blog') {
-                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'HEAD'));
-                    goto not_Blog_admin_home;
-                }
-
-                if (substr($pathinfo, -1) !== '/') {
-                    return $this->redirect($pathinfo.'/', 'Blog_admin_home');
-                }
-
-                return array (  '_controller' => 'tuto\\blogBundle\\Controller\\adminController::indexAction',  '_route' => 'Blog_admin_home',);
-            }
-            not_Blog_admin_home:
-
-            // Blog_ajouter_article
-            if ($pathinfo === '/admin/blog/ajouter') {
-                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                    goto not_Blog_ajouter_article;
-                }
-
-                return array (  '_controller' => 'tuto\\blogBundle\\Controller\\adminArticleController::ajouterAction',  '_route' => 'Blog_ajouter_article',);
-            }
-            not_Blog_ajouter_article:
-
-            if (0 === strpos($pathinfo, '/admin/blog/[id]')) {
-                // Blog_editer_article
-                if ($pathinfo === '/admin/blog/[id]/editer') {
-                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
-                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                        goto not_Blog_editer_article;
-                    }
-
-                    return array (  '_controller' => 'tuto\\blogBundle\\Controller\\adminArticleController::editerAction',  '_route' => 'Blog_editer_article',);
-                }
-                not_Blog_editer_article:
-
-                // Blog_supprimer_article
-                if ($pathinfo === '/admin/blog/[id]/supprimer') {
-                    if ($this->context->getMethod() != 'DELETE') {
-                        $allow[] = 'DELETE';
-                        goto not_Blog_supprimer_article;
-                    }
-
-                    return array (  '_controller' => 'tuto\\blogBundle\\Controller\\adminArticleController::supprimerAction',  '_route' => 'Blog_supprimer_article',);
-                }
-                not_Blog_supprimer_article:
-
+            // oc_plarform_home_edit
+            if (0 === strpos($pathinfo, '/platform/edit') && preg_match('#^/platform/edit/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_plarform_home_edit')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::editAction',));
             }
 
-        }
+            // oc_plarform_home_delete
+            if (0 === strpos($pathinfo, '/platform/delete') && preg_match('#^/platform/delete/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_plarform_home_delete')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::deleteAction',));
+            }
 
-        // hello_homepage
-        if (0 === strpos($pathinfo, '/hello') && preg_match('#^/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
-            return $this->mergeDefaults(array_replace($matches, array('_route' => 'hello_homepage')), array (  '_controller' => 'Tuto\\helloBundle\\Controller\\DefaultController::indexAction',));
-        }
+            // oc_platform_view_slug
+            if (preg_match('#^/platform/(?P<year>[^/]++)/(?P<slug>[^/\\.]++)\\.(?P<format>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_view_slug')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::viewSlugAction',));
+            }
 
-        // helloBundleTest
-        if ($pathinfo === '/test') {
-            return array (  '_controller' => 'Tuto\\helloBundle\\Controller\\TestController::indexAction',  '_route' => 'helloBundleTest',);
         }
 
         // _welcome

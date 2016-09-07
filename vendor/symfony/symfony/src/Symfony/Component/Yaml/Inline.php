@@ -29,10 +29,10 @@ class Inline
     /**
      * Converts a YAML string to a PHP array.
      *
-     * @param string  $value                  A YAML string
-     * @param bool    $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
-     * @param bool    $objectSupport          true if object support is enabled, false otherwise
-     * @param array   $references             Mapping of variable names to values
+     * @param string $value                  A YAML string
+     * @param bool   $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
+     * @param bool   $objectSupport          true if object support is enabled, false otherwise
+     * @param array  $references             Mapping of variable names to values
      *
      * @return array A PHP array representing the YAML string
      *
@@ -83,9 +83,9 @@ class Inline
     /**
      * Dumps a given PHP variable to a YAML string.
      *
-     * @param mixed   $value                  The PHP variable to convert
-     * @param bool    $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
-     * @param bool    $objectSupport          true if object support is enabled, false otherwise
+     * @param mixed $value                  The PHP variable to convert
+     * @param bool  $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
+     * @param bool  $objectSupport          true if object support is enabled, false otherwise
      *
      * @return string The YAML string representing the PHP array
      *
@@ -132,15 +132,13 @@ class Inline
                 }
 
                 return $repr;
+            case '' == $value:
+                return "''";
             case Escaper::requiresDoubleQuoting($value):
                 return Escaper::escapeWithDoubleQuotes($value);
             case Escaper::requiresSingleQuoting($value):
-                return Escaper::escapeWithSingleQuotes($value);
-            case '' == $value:
-                return "''";
             case preg_match(self::getTimestampRegex(), $value):
-            case in_array(strtolower($value), array('null', '~', 'true', 'false')):
-                return "'$value'";
+                return Escaper::escapeWithSingleQuotes($value);
             default:
                 return $value;
         }
@@ -149,9 +147,9 @@ class Inline
     /**
      * Dumps a PHP array to a YAML string.
      *
-     * @param array   $value                  The PHP array to dump
-     * @param bool    $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
-     * @param bool    $objectSupport          true if object support is enabled, false otherwise
+     * @param array $value                  The PHP array to dump
+     * @param bool  $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
+     * @param bool  $objectSupport          true if object support is enabled, false otherwise
      *
      * @return string The YAML string representing the PHP array
      */
@@ -182,7 +180,7 @@ class Inline
     /**
      * Parses a scalar to a YAML string.
      *
-     * @param scalar $scalar
+     * @param string $scalar
      * @param string $delimiters
      * @param array  $stringDelimiters
      * @param int    &$i
@@ -234,7 +232,7 @@ class Inline
      * Parses a quoted scalar to YAML.
      *
      * @param string $scalar
-     * @param int     &$i
+     * @param int    &$i
      *
      * @return string A YAML string
      *
@@ -410,7 +408,7 @@ class Inline
      *
      * @return string A YAML string
      *
-     * @throws ParseException when object parsing support was disabled and the parser detected a PHP object
+     * @throws ParseException when object parsing support was disabled and the parser detected a PHP object or when a reference could not be resolved
      */
     private static function evaluateScalar($scalar, $references = array())
     {
@@ -422,6 +420,11 @@ class Inline
                 $value = substr($scalar, 1, $pos - 2);
             } else {
                 $value = substr($scalar, 1);
+            }
+
+            // an unquoted *
+            if (false === $value || '' === $value) {
+                throw new ParseException('A reference must contain at least one character.');
             }
 
             if (!array_key_exists($value, $references)) {

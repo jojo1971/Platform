@@ -7,7 +7,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class PublicController extends Controller{
     function indexAction()
     {
-        return $this->render("blogBundle:Public:index.html.twig");
+        return $this->render("blogBundle:Public:index.html.twig", array(
+            'articles' => array(
+               2 => array(
+                   'titre' => "Le blog fonctionne",
+                   'auteurs' => array(
+                      array(
+                       'username' => "Jojo-D",
+                        'id' => 1,
+                        'nbArticles' =>52,
+                        'createur' => true,
+                   ),
+                     array(
+                         'username' => "Koko-D",
+                         'id' => 2,
+                         'nbArticles' =>120,
+                         'createur' => false,
+                     ),
+                   ),
+                    'contenu' => "<span>Ici le contenu de l'article</span>",
+                    'date' => new \DateTime(),
+                    ),
+            ),
+        ));
 
     }
     function pageAction($page){
@@ -32,7 +54,7 @@ class PublicController extends Controller{
         $article = array(
         'titre' => "Titre de l'article",
         'date' => $session->get('dateDerniereSession'),
-        'contenu' => "c'est cool ce tuto",
+        'contenu' => "c'est cool ce Tuto",
         'auteur' => $cookies->get('pseudo'),
         'token' => $this->getRequest()->query->get('token'),
       );

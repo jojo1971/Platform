@@ -1,5 +1,5 @@
 parameters:
-#    hello.example.class: tuto\helloBundle\Example
+#    hello.example.class: Tuto\helloBundle\Example
 
 services:
 #    hello.example:

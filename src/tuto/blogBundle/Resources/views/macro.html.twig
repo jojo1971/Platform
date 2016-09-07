@@ -1,0 +1,4 @@
+{% macro link_user(user) %}
+
+    <a href="{{ path('Blog_article', {'slug' : user.username, 'annee' : '2015'}) }}">{{ user.username }}</a>
+{% endmacro %}

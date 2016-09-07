@@ -1,5 +1,5 @@
 <?php
-
+use FOS\UserBundle;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -18,6 +18,14 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Tuto\helloBundle\HelloBundle(),
             new tuto\blogBundle\blogBundle(),
+            new Tuto\AnimauxBundle\TutoAnimauxBundle(),
+            new Tuto\copcolBundle\TutocopcolBundle(),
+
+
+           // new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+
+            //new FOS\UserBundle\FOSUserBundle(),
+            new OC\PlatformBundle\OCPlatformBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
