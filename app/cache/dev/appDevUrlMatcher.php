@@ -122,33 +122,67 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        // core_homepage
+        if (rtrim($pathinfo, '/') === '') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'core_homepage');
+            }
+
+            return array (  '_controller' => 'Core\\CoreBundle\\Controller\\AccueilController::accueilAction',  '_route' => 'core_homepage',);
+        }
+
+        // core_flash
+        if ($pathinfo === '/flash') {
+            return array (  '_controller' => 'Core\\CoreBundle\\Controller\\AccueilController::flashAction',  '_route' => 'core_flash',);
+        }
+
         if (0 === strpos($pathinfo, '/platform')) {
-            // oc_plarform_home
+            // oc_platform_home
             if (preg_match('#^/platform(?:/(?P<page>\\d*))?$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_plarform_home')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::indexAction',  'page' => 1,));
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_home')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::indexAction',  'page' => 1,));
             }
 
-            if (0 === strpos($pathinfo, '/platform/ad')) {
-                // oc_platform_home_view
-                if (0 === strpos($pathinfo, '/platform/advert') && preg_match('#^/platform/advert/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_home_view')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::viewAction',));
+            // oc_platform_view
+            if (0 === strpos($pathinfo, '/platform/advert') && preg_match('#^/platform/advert/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_view')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::viewAction',));
+            }
+
+            // oc_platform_home_tag
+            if (0 === strpos($pathinfo, '/platform/tag') && preg_match('#^/platform/tag/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_home_tag')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::tagAction',));
+            }
+
+            if (0 === strpos($pathinfo, '/platform/flash')) {
+                // oc_platform_flash
+                if (preg_match('#^/platform/flash/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_flash')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::flashAction',));
                 }
 
-                // oc_plarform_home_add
-                if ($pathinfo === '/platform/add') {
-                    return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::addAction',  '_route' => 'oc_plarform_home_add',);
+                // oc_platform_flash2
+                if (preg_match('#^/platform/flash/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_flash2')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::flashAction',));
                 }
 
             }
 
-            // oc_plarform_home_edit
+            // oc_platform_add
+            if ($pathinfo === '/platform/add') {
+                return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::addAction',  '_route' => 'oc_platform_add',);
+            }
+
+            // oc_platform_spam
+            if ($pathinfo === '/platform/spam') {
+                return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::spamAction',  '_route' => 'oc_platform_spam',);
+            }
+
+            // oc_platform_edit
             if (0 === strpos($pathinfo, '/platform/edit') && preg_match('#^/platform/edit/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_plarform_home_edit')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::editAction',));
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_edit')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::editAction',));
             }
 
-            // oc_plarform_home_delete
+            // oc_platform_delete
             if (0 === strpos($pathinfo, '/platform/delete') && preg_match('#^/platform/delete/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_plarform_home_delete')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::deleteAction',));
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_delete')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::deleteAction',));
             }
 
             // oc_platform_view_slug

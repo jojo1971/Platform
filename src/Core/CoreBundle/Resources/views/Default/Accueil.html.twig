@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{% block title %}Accueil{% endblock %}</title>
+
+  {% block stylesheets %}
+    {# On charge le CSS de bootstrap depuis le site directement #}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  {% endblock %}
+</head>
+
+<body>
+<div class="container">
+    <h1>Page d'accueil de notre site</h1>
+{% block accueil_body %}
+
+
+  <h2>Liste des annonces</h2>
+
+    <ul>
+        {% for advert in listAdverts %}
+
+            <li>
+            <a href="{{ path('oc_platform_view', {'id' : advert.id }) }}">{{ advert.title }}</a>
+
+            par {{ advert.auteur }}, le {{ advert.date|date('d/m/Y') }}
+
+           </li>
+           {% else %}
+           <li>Pas (encore !) d'annonces</li>
+
+
+        {% endfor %}
+    </ul>
+
+  <div class="span3" style="color: red">
+      {% for flashMessage in app.session.flashbag.get('info') %}
+        {{ flashMessage }}
+    {% endfor %}
+  </div>
+    <br />
+
+    <a href="{{ path('core_flash') }}">Contacts</a>
+
+{% endblock %}
+</div>
+</body>
+</html>

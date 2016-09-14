@@ -1,17 +1,37 @@
+{% extends "OCPlatformBundle::layout.html.twig" %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Affichage de l'annonce {{ id }}</title>
-    </head>
-    <body>
-        <h1>Hello Annonce n°{{ id }} !</h1>
-      <p>
-      {# On affiche tous les messages flash dont le nom est « info » #}
-      {% for message in app.session.flashbag.get('info') %}
-        <p>Message flash : {{ message }}</p>
-      {% endfor %}
+{% block title %}
+    Lecture d'une annonce - {{ parent() }}
+{% endblock %}
+
+{% block ocplatform_body %}
+
+    <h2>{{ advert.title }}</h2>
+    <i>Par {{ advert.auteur }}, le {{ advert.date|date('d/m/Y') }}</i>
+
+    <div class="well">
+        {{ advert.content }}
+    </div>
+
+    <p>
+        <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour à la liste
+        </a>
+        <a href="{{ path('oc_platform_edit', {'id' : advert.id }) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i>
+            Modifier l'annoce
+        </a>
+        <a href="{{ path('oc_platform_delete', {'id' : advert.id}) }}" class="btn btn-danger">
+            <i class="glyphicon glyphicon-trash"></i>
+            Supprimer l'annonce
+        </a>
     </p>
 
-    </body>
-</html>
+      <div class="span3" style="color: red">
+      {% for flashMessage in app.session.flashbag.get('info') %}
+        {{ flashMessage }}
+    {% endfor %}
+  </div>
+
+{% endblock %}
