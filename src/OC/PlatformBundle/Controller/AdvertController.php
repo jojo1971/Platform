@@ -63,9 +63,10 @@ class AdvertController extends Controller
         $listApplication = $em->getRepository('OCPlatformBundle:Application')->findBy(array('advert' => $advert));
         $listAdvertSkill= $em->getRepository('OCPlatformBundle:AdvertSkill')->findBy(array('advert' => $advert));
 
+
         return $this->render('OCPlatformBundle:Advert:view.html.twig', array('advert' => $advert,
-                                                                              'listApplication' => $listApplication,
-                                                                               'listAdvertSkill' => $listAdvertSkill));
+                                                                             'listApplication' => $listApplication,
+                                                                             'listAdvertSkill' => $listAdvertSkill ));
     }
 
     public function tagAction($id, Request $request)
