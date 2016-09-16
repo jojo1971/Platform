@@ -170,19 +170,24 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::addAction',  '_route' => 'oc_platform_add',);
             }
 
+            // oc_platform_edit
+            if (0 === strpos($pathinfo, '/platform/edit') && preg_match('#^/platform/edit/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_edit')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::editAction',));
+            }
+
             // oc_platform_spam
             if ($pathinfo === '/platform/spam') {
                 return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::spamAction',  '_route' => 'oc_platform_spam',);
             }
 
-            // oc_platform_edit
-            if (0 === strpos($pathinfo, '/platform/edit') && preg_match('#^/platform/edit/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_edit')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::editAction',));
+            // oc_platform_edit2
+            if (0 === strpos($pathinfo, '/platform/edit2') && preg_match('#^/platform/edit2/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_edit2')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::edit2Action',));
             }
 
             // oc_platform_delete
-            if (0 === strpos($pathinfo, '/platform/delete') && preg_match('#^/platform/delete/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_delete')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::deleteAction',));
+            if ($pathinfo === '/platform/delete') {
+                return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::deleteAction',  '_route' => 'oc_platform_delete',);
             }
 
             // oc_platform_view_slug

@@ -7,7 +7,7 @@
 {% block ocplatform_body %}
 
     <h2>{{ advert.title }}</h2>
-    <i>Par {{ advert.auteur }}, le {{ advert.date|date('d/m/Y') }}</i>
+    <i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
 
     <div class="well">
         {{ advert.content }}
@@ -32,6 +32,36 @@
       {% for flashMessage in app.session.flashbag.get('info') %}
         {{ flashMessage }}
     {% endfor %}
-  </div>
+      </div>
+    <div class="span2">
+        <p>Les candidats : </p>
+       {% for application in listApplication %}
+       - {{ application.author }} a laissé le commentaire : {{ application.content }}<br />
+    {% endfor %}
+
+    </div>
+    <div class="span9">
+        {% if advert.image is not null %}
+        <img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
+        {% endif %}
+
+        <p>
+            {% if not advert.categories.empty %}
+
+                Les categories de l'annonce sont :<br />
+                {% for category in advert.categories %}
+                   - {{ category.name }}{% if not loop.last %},<br />{% endif %}
+                {% endfor %}
+            {% endif %}
+        </p>
+        <p>
+            {% if listAdvertSkill|length > 0 %}
+                <p>Compétences : </p>
+                {% for advertSkill in listAdvertSkill %}
+                    {{ advertSkill.skill.name  }} : {{ advertSkill.level  }}<br />
+                {% endfor %}
+            {% endif %}
+        </p>
+    </div>
 
 {% endblock %}
