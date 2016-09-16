@@ -1,0 +1,63 @@
+
+
+oc_platform_home:
+    path: /{page}
+    defaults:
+        _controller: OCPlatformBundle:Advert:index
+        page: 1
+    requirements:
+        page: \d*
+
+
+oc_platform_view:
+    path: /advert/{id}
+    defaults: {_controller: OCPlatformBundle:Advert:view}
+    requirements:
+        id: \d+
+
+oc_platform_home_tag:
+    path: /tag/{id}
+    defaults: {_controller: OCPlatformBundle:Advert:tag}
+    requirements:
+        id: \d+
+
+
+oc_platform_flash:
+    path: /flash/{id}
+    defaults: {_controller: OCPlatformBundle:Advert:flash}
+    requirements:
+        id: \d+
+
+oc_platform_flash2:
+    path: /flash/{id}
+    defaults: {_controller: OCPlatformBundle:Advert:flash}
+    requirements:
+        id: \d+
+
+oc_platform_add:
+    path: /add
+    defaults: {_controller: OCPlatformBundle:Advert:add}
+
+oc_platform_edit:
+    path: /edit/{id}
+    defaults: {_controller: OCPlatformBundle:Advert:edit}
+
+oc_platform_spam:
+    path: /spam
+    defaults: {_controller: OCPlatformBundle:Advert:spam}
+
+oc_platform_edit2:
+    path: /edit2/{id}
+    defaults: {_controller: OCPlatformBundle:Advert:edit2}
+    requirements:
+        id: \d+
+
+oc_platform_delete:
+    path: /delete
+    defaults: {_controller: OCPlatformBundle:Advert:delete}
+    requirements:
+        id: \d+
+
+oc_platform_view_slug:
+    path:      /{year}/{slug}.{format}
+    defaults:  { _controller: OCPlatformBundle:Advert:viewSlug }
