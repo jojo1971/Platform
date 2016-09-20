@@ -180,6 +180,16 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::spamAction',  '_route' => 'oc_platform_spam',);
             }
 
+            // oc_platform_list
+            if ($pathinfo === '/platform/list') {
+                return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::listAction',  '_route' => 'oc_platform_list',);
+            }
+
+            // oc_platform_test
+            if ($pathinfo === '/platform/test') {
+                return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::testAction',  '_route' => 'oc_platform_test',);
+            }
+
             // oc_platform_edit2
             if (0 === strpos($pathinfo, '/platform/edit2') && preg_match('#^/platform/edit2/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_edit2')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::edit2Action',));

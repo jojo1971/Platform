@@ -81,9 +81,9 @@ class AdvertController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $advert = new Advert();
-        $advert->setTitle('Recherche chauffeur');
-        $advert->setAuthor('Paul');
-        $advert->setContent('Pour Nancy');
+        $advert->setTitle('recherche-mecanicien');
+        $advert->setAuthor('fMol');
+        $advert->setContent('Pour Rennes');
 
         /*$image = new Image();
         $image->setUrl('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Mangalarga_Marchador_Conforma%C3%A7%C3%A3o.jpg/290px-Mangalarga_Marchador_Conforma%C3%A7%C3%A3o.jpg');
@@ -91,18 +91,18 @@ class AdvertController extends Controller
 
         $advert->setImage($image);*/
 
-        /*$application = new Application();
-        $application->setAuthor('Robert');
-        $application->setContent('Je suis beau');
+      /* $application = new Application();
+        $application->setAuthor('DIuf');
+        $application->setContent('Je suis beau');*/
 
-        $application1 = new Application();
+        /*$application1 = new Application();
         $application1->setAuthor('Roger');
-        $application1->setContent('Je suis encore plus beau');
+        $application1->setContent('Je suis encore plus beau');*/
 
-        $application->setAdvert($advert);
-        $application1->setAdvert($advert);*/
+       // $application->setAdvert($advert);
+        //$application1->setAdvert($advert);
 
-        $skills = $em->getRepository('OCPlatformBundle:Skill')->findAll();
+      /*  $skills = $em->getRepository('OCPlatformBundle:Skill')->findAll();
         foreach ($skills as $skill) {
             $advertSkill = new AdvertSkill();
             $advertSkill->setAdvert($advert);
@@ -110,10 +110,12 @@ class AdvertController extends Controller
             $advertSkill->setLevel('Expert');
 
             $em->persist($advertSkill);
-        }
+        }*/
+        
+        
         $em->persist($advert);
-       /* $em->persist($application);
-        $em->persist($application1);*/
+      // $em->persist($application);
+        /*$em->persist($application1);*/
 
         $em->flush();
         
@@ -127,35 +129,31 @@ class AdvertController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        /*$advert1 = new Advert;
+        $advert1 = new Advert;
         $advert1->setTitle('Recherche programmeur');
         $advert1->setAuthor('Alex');
         $advert1->setContent('Nous recherchons un développeur pour Paris');
 
         $em->persist($advert1);
 
-        $advert2 = $em->getRepository('OCPlatformBundle:Advert')->find(9);
+        $advert2 = $em->getRepository('OCPlatformBundle:Advert')->find(3);
 
 
         $advert2->setDate(new \DateTime());
-        $advert2->setTitle('Recherche cuistot');*/
+        $advert2->setTitle('Recherche cuistot');
 
-        $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
+        /*$advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
 
         $listCategory = $em->getRepository('OCPlatformBundle:Category')->findAll();
         foreach ($listCategory as $category){
             $advert->addCategory($category);
-        }
-
-
-
-
+        }*/
 
         $em->flush();
 
 
             $request->getSession()->getFlashBag()->add('info', 'Votre annonce a bien été modifiée');
-            return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
+            return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert2->getId())));
 
 
     }
@@ -176,12 +174,14 @@ class AdvertController extends Controller
     public function deleteAction(Request $request){
         $em = $this->getDoctrine()->getManager();
 
-        $advert = $em->getRepository('OCPlatformBundle:Advert')->find(9);
-        $em->remove($advert);
+        $adv = $em->getRepository('OCPlatformBundle:Advert')->find(12);
+        $app = $adv->getApplications();
+        var_dump($adv->getNbApplications()); die();
+        $em->remove($adv);
         $em->flush();
 
         $request->getSession()->getFlashBag()->add('info', 'Votre annonce a bien été supprimée');
-        return $this->redirect($this->generateUrl('oc_platform_view'));
+        return $this->redirect($this->generateUrl('oc_platform_view', array('id' => '5')));
     }
 
 
@@ -230,5 +230,44 @@ class AdvertController extends Controller
             throw new \Exception('Votre message est détecté comme spam');
         }
         
+    }
+
+    public function listAction()
+    {
+      $listAdverts = $this
+        ->getDoctrine()
+        ->getManager()
+        ->getRepository('OCPlatformBundle:Advert')
+        ->getAdvertWithCategories(array('Réseau'))
+      ;
+
+      foreach ($listAdverts as $advert) {
+          if($advert->getId('3')) {
+              $cat = $advert->_em->getRepository('OCPlatformBundle.Advert')->getCategories('11');
+              $advert->addCategory($cat);
+
+          }
+          
+        // Ne déclenche pas de requête : les candidatures sont déjà chargées !
+        // Vous pourriez faire une boucle dessus pour les afficher toutes
+        $advert->getCategories();
+
+      }
+               return $this->render('OCPlatformBundle:Advert:test.html.twig', array('listAdvert' => $listAdverts));
+
+
+
+}
+    public function testAction(){
+        $advert = new Advert();
+        $advert->setTitle('Recherche chomeur');
+        $advert->setAuthor('test');
+        $advert->setContent('Pour test');
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($advert);
+        $em->flush();
+        
+        return new Response('Slug généré : '.$advert->getSlug());
     }
 }

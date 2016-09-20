@@ -18,7 +18,12 @@ class ComposerStaticInit6b7530ef2eb87d068a9b17bd80383d8f
             'Symfony\\Bundle\\SwiftmailerBundle\\' => 33,
             'Symfony\\Bundle\\MonologBundle\\' => 29,
             'Symfony\\Bundle\\AsseticBundle\\' => 29,
+            'Stof\\DoctrineExtensionsBundle\\' => 30,
             'Sensio\\Bundle\\FrameworkExtraBundle\\' => 35,
+        ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
         ),
         'M' => 
         array (
@@ -56,9 +61,17 @@ class ComposerStaticInit6b7530ef2eb87d068a9b17bd80383d8f
         array (
             0 => __DIR__ . '/..' . '/symfony/assetic-bundle',
         ),
+        'Stof\\DoctrineExtensionsBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stof/doctrine-extensions-bundle',
+        ),
         'Sensio\\Bundle\\FrameworkExtraBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/sensio/framework-extra-bundle',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'Monolog\\' => 
         array (
@@ -133,11 +146,11 @@ class ComposerStaticInit6b7530ef2eb87d068a9b17bd80383d8f
                 0 => __DIR__ . '/..' . '/sensiolabs/security-checker',
             ),
         ),
-        'P' => 
+        'G' => 
         array (
-            'Psr\\Log\\' => 
+            'Gedmo\\' => 
             array (
-                0 => __DIR__ . '/..' . '/psr/log',
+                0 => __DIR__ . '/..' . '/gedmo/doctrine-extensions/lib',
             ),
         ),
         'D' => 
@@ -169,6 +182,13 @@ class ComposerStaticInit6b7530ef2eb87d068a9b17bd80383d8f
             'Doctrine\\Common\\Annotations\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
+            ),
+        ),
+        'B' => 
+        array (
+            'Behat\\Transliterator' => 
+            array (
+                0 => __DIR__ . '/..' . '/behat/transliterator/src',
             ),
         ),
         'A' => 
