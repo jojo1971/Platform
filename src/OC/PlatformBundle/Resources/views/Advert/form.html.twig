@@ -2,5 +2,9 @@
 
 
 <div class="well">
+
+    {% for mes in app.session.flashbag.get('info') %}
+        {{ mes }}
+    {% endfor %}
     Ici se trouve le formulaire
 </div>

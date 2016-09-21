@@ -69,3 +69,7 @@ oc_platform_delete:
 oc_platform_view_slug:
     path:      /{year}/{slug}.{format}
     defaults:  { _controller: OCPlatformBundle:Advert:viewSlug }
+
+oc_platform.advert_purger:
+    path: purger/{days}
+    defaults: { _controller: OCPlatformBundle:Advert:purger }

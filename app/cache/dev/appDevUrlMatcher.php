@@ -205,6 +205,11 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_view_slug')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::viewSlugAction',));
             }
 
+            // oc_platform.advert_purger
+            if (0 === strpos($pathinfo, '/platform/purger') && preg_match('#^/platform/purger/(?P<days>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform.advert_purger')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::purgerAction',));
+            }
+
         }
 
         // _welcome
