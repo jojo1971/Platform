@@ -10,4 +10,6 @@
       <PhpUnitSettings />
     </phpunit_settings>
   </component>
+  <component name="ProjectRootManager" version="2" />
 </project>
+
