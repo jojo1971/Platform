@@ -2,6 +2,9 @@
 
 namespace OC\PlatformBundle\Entity;
 
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 /**
  * AdvertRepository
  *
@@ -10,16 +13,52 @@ namespace OC\PlatformBundle\Entity;
  */
 class AdvertRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getAdvertWithCategories(array $categoryNames){
-        $qb = $this
-            ->createQueryBuilder('a')
-            ->leftJoin('a.categories', 'c')
-            ->addSelect('c');
-        $qb->where($qb->expr()->in('c.name', $categoryNames));
+     public function getAdvertWithCategories(array $categoryNames)
+  {
+        $qb = $this->createQueryBuilder('a');
 
+        // On fait une jointure avec l'entité Category avec pour alias « c »
+        $qb
+          ->join('a.categories', 'c')
+          ->addSelect('c')
+        ;
+
+        // Puis on filtre sur le nom des catégories à l'aide d'un IN
+        $qb->where($qb->expr()->in('c.name', $categoryNames));
+        // La syntaxe du IN et d'autres expressions se trouve dans la documentation Doctrine
+
+        // Enfin, on retourne le résultat
         return $qb
+          ->getQuery()
+          ->getResult()
+    ;
+  }
+    
+    public function getAdverts($page, $nbPerPage){
+        $query = $this->createQueryBuilder('a')
+            ->leftJoin('a.image','i')
+            ->addSelect('i')
+            ->leftJoin('a.categories','c')
+            ->addSelect('c')
+            ->orderBy('a.date','DESC')
+            ->getQuery();
+
+        $query
+            ->setFirstResult(($page-1) * $nbPerPage)
+            ->setMaxResults($nbPerPage);
+        
+        return new Paginator($query, true);
+    }
+
+    public function purge($days){
+        $query = $this->createQueryBuilder('a')
+
+            ->addSelect('a.date');
+        
+        return $query
             ->getQuery()
             ->getResult();
-            
+        
     }
+  
 }

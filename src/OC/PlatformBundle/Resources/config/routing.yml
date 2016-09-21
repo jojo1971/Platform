@@ -46,6 +46,14 @@ oc_platform_spam:
     path: /spam
     defaults: {_controller: OCPlatformBundle:Advert:spam}
 
+oc_platform_list:
+    path: /list
+    defaults: {_controller: OCPlatformBundle:Advert:list}
+
+oc_platform_test:
+    path: /test
+    defaults: {_controller: OCPlatformBundle:Advert:test}
+
 oc_platform_edit2:
     path: /edit2/{id}
     defaults: {_controller: OCPlatformBundle:Advert:edit2}
@@ -61,3 +69,7 @@ oc_platform_delete:
 oc_platform_view_slug:
     path:      /{year}/{slug}.{format}
     defaults:  { _controller: OCPlatformBundle:Advert:viewSlug }
+
+oc_platform.advert_purger:
+    path: purger/{days}
+    defaults: { _controller: OCPlatformBundle:Advert:purger }
