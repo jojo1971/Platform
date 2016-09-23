@@ -522,3 +522,5 @@ f6bd96,127.0.0.1,GET,http://localhost/Platform/web/app_dev.php/platform/add,1474
 83cf09,127.0.0.1,GET,http://localhost/Platform/web/app_dev.php/platform/add,1474556648,
 8c58eb,127.0.0.1,GET,http://localhost/Platform/web/app_dev.php/_fragment?_path=_format%3Dhtml%26_locale%3Den%26_controller%3DOCPlatformBundle%253AAdvert%253Amenu,1474556747,92cb3f
 92cb3f,127.0.0.1,GET,http://localhost/Platform/web/app_dev.php/platform/add,1474556747,
+79dc9d,127.0.0.1,GET,http://localhost/Platform/web/app_dev.php/_fragment?_path=_format%3Dhtml%26_locale%3Den%26_controller%3DOCPlatformBundle%253AAdvert%253Amenu,1474638600,291fbe
+291fbe,127.0.0.1,GET,http://localhost/Platform/web/app_dev.php/platform/add,1474638600,
