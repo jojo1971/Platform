@@ -6,6 +6,7 @@ use OC\PlatformBundle\Entity\AdvertSkill;
 use OC\PlatformBundle\Entity\Application;
 use OC\PlatformBundle\Entity\Category;
 use OC\PlatformBundle\Entity\Image;
+use OC\PlatformBundle\Form\AdvertType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -108,14 +109,8 @@ class AdvertController extends Controller
 
        // $advert->setDate(new \DateTime('2012/12/05'));
 
-        $form = $this->get('form.factory')->createBuilder('form', $advert)
-            ->add('date','date', array('format' => 'dd MM yyyy'))
-            ->add('title', 'text')
-            ->add('content', 'textarea')
-            ->add('author', 'text')
-            ->add('published', 'checkbox', array('required' => false))
-            ->add('save', 'submit')
-            ->getForm();
+        $form = $this->get('form.factory')->create(new AdvertType(), $advert);
+        // ou en plus simple : $form = $this->createForm(new AdvertType, $advert);
 
         $form->handleRequest($request);
 
