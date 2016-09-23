@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use OC\PlatformBundle\Entity\Advert;
 use Doctrine\ORM\Repository;
+use Doctrine\ORM\EntityRepository;
+
+
+
 
 class AdvertController extends Controller
 {
@@ -99,6 +103,34 @@ class AdvertController extends Controller
     public function addAction(Request $request)
     {
 
+        $advert = new Advert();
+
+
+       // $advert->setDate(new \DateTime('2012/12/05'));
+
+        $form = $this->get('form.factory')->createBuilder('form', $advert)
+            ->add('date','date', array('format' => 'dd MM yyyy'))
+            ->add('title', 'text')
+            ->add('content', 'textarea')
+            ->add('author', 'text')
+            ->add('published', 'checkbox', array('required' => false))
+            ->add('save', 'submit')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($advert);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('info', 'Annonce bien enregidtrée');
+            return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
+        }
+
+        return $this->render('OCPlatformBundle:Advert:add.html.twig', array('form' => $form->createView()));
+
+
         /*$em = $this->getDoctrine()->getManager();
         
         $advert = new Advert();
@@ -140,12 +172,12 @@ class AdvertController extends Controller
 
        // $em->flush();
         
-        if ($request->isMethod('POST')) {
+       /* if ($request->isMethod('POST')) {
             $request->getSession()->getFlashBag()->add('info', 'Votre annonce a bien été enregistrée');
             // return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
             return $this->redirect($this->generateUrl('oc_platform_view', array('id' => 1)));
         }
-        return $this->render('OCPlatformBundle:Advert:add.html.twig');
+        return $this->render('OCPlatformBundle:Advert:add.html.twig');*/
 
         
     }
@@ -304,12 +336,21 @@ class AdvertController extends Controller
         
         return new Response('Slug généré : '.$advert->getSlug());
     }
-    public function purgerAction($days){
-        $dates = $this->getDoctrine()
+    public function purgerAction(){
+
+        $em = $this->getDoctrine()
             ->getManager()
             ->getRepository('OCPlatformBundle:Advert')
-            ->purge($days);
+            ->myFind();
+        var_dump($em);die();
 
-       var_dump($dates.getdate());die();
+
+       /* $adverts = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('OCPlatformBundle:Advert');
+           //->purge($days);
+
+       var_dump($adverts.getTitle());die();*/
+        return $this->render('OCPlatformBundle:Advert:test.html.twig');
     }
 }
