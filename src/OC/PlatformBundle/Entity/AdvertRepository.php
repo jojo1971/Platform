@@ -4,6 +4,7 @@ namespace OC\PlatformBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * AdvertRepository
@@ -50,12 +51,32 @@ class AdvertRepository extends \Doctrine\ORM\EntityRepository
         return new Paginator($query, true);
     }
 
-    public function purge($days){
-        $query = $this->createQueryBuilder('a')
+    public function whereCurrentYear(\Doctrine\ORM\QueryBuilder $qb){
+        $qb->andWhere('a.date BETWEEN :debut AND :FIN')
+            ->setParameter('debut', new \DateTime(('Y').'01/01'))
+            ->setParameter('fin', new \DateTime(('Y').'31/12'));
+        return $qb;
+    }
+    
+    public function myFind(){
+        $qb = $this->createQueryBuilder('a')
 
-            ->addSelect('a.date');
-        
-        return $query
+            ->leftJoin('a.applications', 'n' )
+            ->addSelect('n')
+          ->select('a.applications');
+
+
+        return$qb->getQuery()->getResult();
+    }
+
+    public function purge($date){
+        $q = $this->createQueryBuilder('a');
+        $q
+            ->where('a.date = :date')
+            ->setParameter('date', $date);
+
+
+        return $q
             ->getQuery()
             ->getResult();
         
