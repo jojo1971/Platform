@@ -184,16 +184,16 @@ class AdvertController extends Controller
         $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
         
         $form = $this->get('form.factory')->create(new AdvertEditType(), $advert);
-        $form->handleRequest($advert);
+        $form->handleRequest($request);
         
         if($form->isValid()){
-            $em->update($advert);
+            $em->persist($advert);
             $em->flush();
 
             $request->getSession()->getFlashBag()->add('info', 'Annonce bien modifiée');
-            return $this->redirect($this->generateUrl('oc_platformbundle_view', array('id' => $advert->getId())));
+            return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
         }
-        return $this->render('OCPlatformBundle:Advert:edit.html.twig', array('form' => $form->createView()));
+        return $this->render('OCPlatformBundle:Advert:edit.html.twig', array('form' => $form->createView(), 'id' => $advert->getId()));
 
 
         //$advert->setDate(new \DateTime());
