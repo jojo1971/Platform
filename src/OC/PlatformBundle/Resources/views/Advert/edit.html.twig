@@ -6,6 +6,10 @@
 {% endblock %}
 
 {% block ocplatform_body %}
+
+    <div class="well">
+        {{ form(form) }}
+    </div>
   <h2>Modifier une annonce</h2>
 
     {{ include("OCPlatformBundle:Advert:form.html.twig") }}

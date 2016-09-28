@@ -6,6 +6,7 @@ use OC\PlatformBundle\Entity\AdvertSkill;
 use OC\PlatformBundle\Entity\Application;
 use OC\PlatformBundle\Entity\Category;
 use OC\PlatformBundle\Entity\Image;
+use OC\PlatformBundle\Form\AdvertEditType;
 use OC\PlatformBundle\Form\AdvertType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,7 +54,7 @@ class AdvertController extends Controller
                 return $this->render('OCPlatformBundle:Advert:index.html.twig', array(
                   'listAdverts' => $listAdverts
                 ));*/
-       $nbPerPage = 3;
+       $nbPerPage = 7;
 
         $listAdverts = $this->getDoctrine()
                             ->getManager()
@@ -180,11 +181,23 @@ class AdvertController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $advert = $em->getRepository('OCPlatformBundle:Advert')->find(3);
+        $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
+        
+        $form = $this->get('form.factory')->create(new AdvertEditType(), $advert);
+        $form->handleRequest($advert);
+        
+        if($form->isValid()){
+            $em->update($advert);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('info', 'Annonce bien modifiée');
+            return $this->redirect($this->generateUrl('oc_platformbundle_view', array('id' => $advert->getId())));
+        }
+        return $this->render('OCPlatformBundle:Advert:edit.html.twig', array('form' => $form->createView()));
 
 
-        $advert->setDate(new \DateTime());
-        $advert->setTitle('Recherche cuistot');
+        //$advert->setDate(new \DateTime());
+        //$advert->setTitle('Recherche cuistot');
 
         /*$advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
 
@@ -211,7 +224,7 @@ class AdvertController extends Controller
                     'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
                     'date'    => new \Datetime());
 
-        return $this->render('OCPlatformBundle:Advert:edit.html.twig', array('advert' => $advert));
+        return $this->render('OCPlatformBundle:Advert:edit.html.twig', array('form' => $f));
 
     }
 
